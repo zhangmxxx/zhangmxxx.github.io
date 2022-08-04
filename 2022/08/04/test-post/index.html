@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/zhangmxxx/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/zhangmxxx/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/zhangmxxx/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/zhangmxxx/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/zhangmxxx/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/zhangmxxx/","images":"/zhangmxxx/images","scheme":"Pisces","darkmode":true,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/zhangmxxx/js/config.js"></script>
+
+    <meta name="description" content="C - 盲目转进 Key points1.模型转换与主题实现用样本空间来思考。|sample space| &#x3D; $m * n * 4 ^ k$。注意，如果k次的路径有一部分在合法点之外，也在该样本空间内。问题转换成找k次移动构成的合法路径经过k次之后，如果路径落点在合法点(i, j)，即为一种可能的情形。第k次落在合法点，第k - 1次一定落在其相邻的合法点。转换成实现逻辑：dp方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="某一周的C题">
+<meta property="og:url" content="https://github.com/zhangmxxx/2022/08/04/test-post/index.html">
+<meta property="og:site_name" content="Peanut">
+<meta property="og:description" content="C - 盲目转进 Key points1.模型转换与主题实现用样本空间来思考。|sample space| &#x3D; $m * n * 4 ^ k$。注意，如果k次的路径有一部分在合法点之外，也在该样本空间内。问题转换成找k次移动构成的合法路径经过k次之后，如果路径落点在合法点(i, j)，即为一种可能的情形。第k次落在合法点，第k - 1次一定落在其相邻的合法点。转换成实现逻辑：dp方">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-08-04T07:21:51.000Z">
+<meta property="article:modified_time" content="2022-08-04T09:49:45.412Z">
+<meta property="article:author" content="Simenons">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/zhangmxxx/2022/08/04/test-post/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://github.com/zhangmxxx/2022/08/04/test-post/","path":"2022/08/04/test-post/","title":"某一周的C题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>某一周的C题 | Peanut</title>
+  
+
+
+
+
+<script src="/zhangmxxx/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/zhangmxxx/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/zhangmxxx/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Peanut</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E7%9B%B2%E7%9B%AE%E8%BD%AC%E8%BF%9B"><span class="nav-number">1.</span> <span class="nav-text"> C - 盲目转进 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Key-points"><span class="nav-number">1.1.</span> <span class="nav-text">Key points</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%8E%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.模型转换与主题实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-a-x2F-b-mod%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.(a &#x2F; b) % mod的算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E6%A6%82%E8%BF%B0%EF%BC%9A-a-x2F-b-mod-x3D-a-b-1-mod-x3D-a-mod-b-1-mod"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">原理概述：($a &#x2F; b$) $%$ $mod$ &#x3D; ($a * b^{-1}$) $%$ $mod$ &#x3D; $a$ $%$ $mod$ *  $b^{-1}$ $%$ $mod$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%93mod%E4%B8%BA%E7%B4%A0%E6%95%B0%E6%97%B6%E7%9A%84%E8%A7%A3%E6%B3%95%EF%BC%9A"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">当mod为素数时的解法：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.滚动数组空间优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E6%98%A0%E5%B0%84%E4%B8%BA%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96"><span class="nav-number">1.1.4.</span> <span class="nav-text">4.二维数组映射为一维数组空间优化</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#row-col%E5%8F%98%E5%8C%96%E8%8C%83%E5%9B%B4%E5%A4%A7%EF%BC%8C%E5%BC%80%E9%9D%99%E6%80%81%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8Farr-maxn-maxn-%E6%B5%AA%E8%B4%B9%E7%A9%BA%E9%97%B4%E3%80%82%E4%BE%8B%E5%A6%82%E6%AD%A4%E9%A2%98%E4%B8%AD%EF%BC%8Cm-n-leq-10-6%E3%80%82"><span class="nav-number">1.1.4.0.1.</span> <span class="nav-text">row, col变化范围大，开静态全局变量arr[maxn][maxn]浪费空间。例如此题中，m * n $\leq$ 10^6。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E7%BB%86%E8%8A%82bugs"><span class="nav-number">1.1.5.</span> <span class="nav-text">5.细节bugs</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">1.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">2.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3"><span class="nav-number">1.1.5.3.</span> <span class="nav-text">3.</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Simenons"
+      src="/zhangmxxx/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Simenons</p>
+  <div class="site-description" itemprop="description">Repository for 2rd year in NJU CS</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/zhangmxxx/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhangmxxx" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhangmxxx"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zhangmxxx/211240005@smail.nju.edu.cn" title="E-Mail → 211240005@smail.nju.edu.cn"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/19603160/simenons" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;19603160&#x2F;simenons" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/simenons" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;simenons" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://github.com/zhangmxxx/2022/08/04/test-post/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zhangmxxx/images/avatar.jpg">
+      <meta itemprop="name" content="Simenons">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Peanut">
+      <meta itemprop="description" content="Repository for 2rd year in NJU CS">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="某一周的C题 | Peanut">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          某一周的C题<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/2022-08-04-test-post.md" class="post-edit-link" title="Edit this post"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-08-04 15:21:51 / Modified: 17:49:45" itemprop="dateCreated datePublished" datetime="2022-08-04T15:21:51+08:00">2022-08-04</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font face = "menlo">
+
+<h2 id="C-盲目转进"><a href="#C-盲目转进" class="headerlink" title=" C - 盲目转进 "></a><font color = "green"> C - 盲目转进 </font></h2><h3 id="Key-points"><a href="#Key-points" class="headerlink" title="Key points"></a>Key points</h3><h4 id="1-模型转换与主题实现"><a href="#1-模型转换与主题实现" class="headerlink" title="1.模型转换与主题实现"></a>1.模型转换与主题实现</h4><p><font color = "red">用样本空间来思考</font>。|sample space| &#x3D; $m * n * 4 ^ k$。<font color = "red">注意</font>，如果k次的路径有一部分在合法点之外，也在该样本空间内。问题转换成找k次移动构成的合法路径<br>经过k次之后，如果路径落点在合法点(i, j)，即为一种可能的情形。第k次落在合法点，第k - 1次一定落在其相邻的合法点。<br>转换成实现逻辑：dp方式，但是是对四个方向进行dp，递增的参数为k</p>
+<span id="more"></span>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= k; ++i)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; ++j)&#123;</span><br><span class="line">        <span class="type">int</span> it = <span class="built_in">idx</span>(j, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> q = <span class="number">1</span>; q &lt;= m; ++q)</span><br><span class="line">        &#123;</span><br><span class="line">            it++;</span><br><span class="line">            <span class="type">int</span> cur = i &amp; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (!rec[!cur][it]) <span class="keyword">continue</span>;</span><br><span class="line">            rec[cur][<span class="built_in">idx</span>(j, q)] = rec[!cur][it + m + <span class="number">2</span>] + rec[!cur][it - m - <span class="number">2</span>]</span><br><span class="line">            + rec[!cur][it - <span class="number">1</span>] + rec[!cur][it + <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (i == k) sum += rec[cur][it];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-a-x2F-b-mod的算法"><a href="#2-a-x2F-b-mod的算法" class="headerlink" title="2.(a &#x2F; b) % mod的算法"></a>2.(a &#x2F; b) % mod的算法</h4><h5 id="原理概述：-a-x2F-b-mod-x3D-a-b-1-mod-x3D-a-mod-b-1-mod"><a href="#原理概述：-a-x2F-b-mod-x3D-a-b-1-mod-x3D-a-mod-b-1-mod" class="headerlink" title="原理概述：($a &#x2F; b$) $%$ $mod$ &#x3D; ($a * b^{-1}$) $%$ $mod$ &#x3D; $a$ $%$ $mod$ *  $b^{-1}$ $%$ $mod$"></a>原理概述：($a &#x2F; b$) $%$ $mod$ &#x3D; ($a * b^{-1}$) $%$ $mod$ &#x3D; $a$ $%$ $mod$ *  $b^{-1}$ $%$ $mod$</h5><p>问题转换成求$b^{-1}$在模mod下的整数表达。</p>
+<h5 id="当mod为素数时的解法："><a href="#当mod为素数时的解法：" class="headerlink" title="当mod为素数时的解法："></a>当mod为<font color = "red">素数</font>时的解法：</h5><p>由费马小定理：$b^{p - 1} &#x3D; 1$ (mod p), 则$b^{p - 2} * b &#x3D; 1$ (mod p), $b^{p - 2}$即为$b^{-1}$在模mod下的整数表达。<br>则($a &#x2F; b$) $%$ $mod$ &#x3D; ($a * b^{p - 2}$) $%$ $mod$<br>而$b^{p - 2}$可以通过<a href="../../luogu/P1226%E5%BF%AB%E9%80%9F%E5%B9%82.txt">快速幂</a>求解</p>
+<h4 id="3-滚动数组空间优化"><a href="#3-滚动数组空间优化" class="headerlink" title="3.滚动数组空间优化"></a>3.滚动数组空间优化</h4><p>遍历过程中，某个点的值只和上一次&#x2F;上一行…有关（背包问题中的i，此题中的k）<br>可以只用两个数组储存，<code>rec[i &amp; 1][j]</code>对其交替访问。<br>（此题本质上每次是更新一个二维数组，因为一个点和四个方向有关，而非<a href="../../luogu/dp/P1002%20dp%E5%85%A5%E9%97%A8%E5%8F%8A%E4%BC%98%E5%8C%96.txt">这样</a>只和左、上有关，对应背包问题中的每次更新行的数组）</p>
+<h4 id="4-二维数组映射为一维数组空间优化"><a href="#4-二维数组映射为一维数组空间优化" class="headerlink" title="4.二维数组映射为一维数组空间优化"></a>4.二维数组映射为一维数组空间优化</h4><h6 id="row-col变化范围大，开静态全局变量arr-maxn-maxn-浪费空间。例如此题中，m-n-leq-10-6。"><a href="#row-col变化范围大，开静态全局变量arr-maxn-maxn-浪费空间。例如此题中，m-n-leq-10-6。" class="headerlink" title="row, col变化范围大，开静态全局变量arr[maxn][maxn]浪费空间。例如此题中，m * n $\leq$ 10^6。"></a>row, col变化范围大，开静态全局变量<code>arr[maxn][maxn]</code>浪费空间。例如此题中，m <font color = "red">*</font> n $\leq$ 10^6。</h6><p>线性拼接，不赘述具体实现。</p>
+<h4 id="5-细节bugs"><a href="#5-细节bugs" class="headerlink" title="5.细节bugs"></a>5.细节bugs</h4><h5 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h5><p>1 &lt;&lt; k, 1默认是int，k可能会超int上限32.</p>
+<h5 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h5><p>如果在地图周围加一圈0， (m + 2) * (n + 2), 数组至少开3e6;</p>
+<h5 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h5><p>注意(a * b) % mod时，a、b均小于mod，但(a * b)先溢出其数据类型上限的情况</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> __int128 Int;</span><br><span class="line"><span class="type">const</span> Int mod = <span class="number">7881299347898369</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn = <span class="number">3e6</span> + <span class="number">500</span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> Int <span class="title">qpow</span><span class="params">(Int a, Int b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Int res = <span class="number">1</span>;</span><br><span class="line">    a %= mod;</span><br><span class="line">    <span class="keyword">while</span>(b)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (b &amp; <span class="number">1</span>) </span><br><span class="line">            res = (res * a) % mod;</span><br><span class="line">        a = (a * a) % mod;</span><br><span class="line">        b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> n, m, k, cn;</span><br><span class="line">ll rec[<span class="number">2</span>][maxn];</span><br><span class="line">Int sum;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">idx</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> row * (m + <span class="number">2</span>) + col + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;n, &amp;m, &amp;k);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m + <span class="number">2</span>; ++i) </span><br><span class="line">        rec[<span class="number">0</span>][++cn] = <span class="number">0</span>;</span><br><span class="line">    string s;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        cin &gt;&gt; s;</span><br><span class="line">        rec[<span class="number">0</span>][++cn] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; m; ++j)</span><br><span class="line">            rec[<span class="number">0</span>][++cn] = s[j] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        rec[<span class="number">0</span>][++cn] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m + <span class="number">2</span>; ++i)</span><br><span class="line">        rec[<span class="number">0</span>][++cn] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (k == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; ++j)</span><br><span class="line">                sum += rec[<span class="number">0</span>][<span class="built_in">idx</span>(i, j)];</span><br><span class="line">        <span class="keyword">goto</span> end;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= k; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; ++j)&#123;</span><br><span class="line">            <span class="type">int</span> it = <span class="built_in">idx</span>(j, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> q = <span class="number">1</span>; q &lt;= m; ++q)</span><br><span class="line">            &#123;</span><br><span class="line">                it++;</span><br><span class="line">                <span class="type">int</span> cur = i &amp; <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span> (!rec[!cur][it]) <span class="keyword">continue</span>;</span><br><span class="line">                rec[cur][<span class="built_in">idx</span>(j, q)] = rec[!cur][it + m + <span class="number">2</span>] + rec[!cur][it - m - <span class="number">2</span>]</span><br><span class="line">                + rec[!cur][it - <span class="number">1</span>] + rec[!cur][it + <span class="number">1</span>];</span><br><span class="line">                <span class="keyword">if</span> (i == k) sum += rec[cur][it];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    end:</span><br><span class="line">    Int div = m * n * <span class="built_in">pow</span>(<span class="number">4</span>, k);</span><br><span class="line">    cout &lt;&lt; (ll)((sum * <span class="built_in">qpow</span>(div, mod - <span class="number">2</span>)) % mod);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div><i class="fa fa-coffee"></i> Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/zhangmxxx/images/wechatpay.png" alt="Simenons WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/zhangmxxx/2022/08/04/hello-world/" rel="next" title="Hello World">
+                  Hello World <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Simenons</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">4k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4 mins.</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/zhangmxxx/js/comments.js"></script><script src="/zhangmxxx/js/utils.js"></script><script src="/zhangmxxx/js/motion.js"></script><script src="/zhangmxxx/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
